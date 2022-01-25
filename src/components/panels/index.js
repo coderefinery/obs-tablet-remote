@@ -9,6 +9,7 @@ import Scenes from './scenes'
 import Sources from './sources'
 import Mixer from './mixer'
 import Stream from './stream'
+import PIPScaler from './PIP_scaler'
 import Transitions from './transitions'
 import Durations from './durations'
 import panelMixin from '@/mixins/panel'
@@ -24,7 +25,8 @@ const components = {
 	Mixer,
 	Transitions,
 	Durations,
-	Stream
+	Stream,
+	PIPScaler
 }
 
 export default {

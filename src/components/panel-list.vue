@@ -114,6 +114,13 @@ const PANELS_INFO = [
 		}
 	},
 	{
+		name: 'Picture-in-Picture Scale',
+		description: 'Scale the Picture in Picture Source',
+		icon: 'dot-circle',
+		iconSettings: {},
+		type: 'PIPScaler',
+	},
+	{
 		name: 'Frame',
 		description: 'Embed any webpage',
 		icon: 'window-maximize',
