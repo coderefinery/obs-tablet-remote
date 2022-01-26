@@ -47,13 +47,6 @@ export const actions = {
 	},
 	async 'event/SourceVolumeChanged'({commit}, {sourceName, volume}) {
 		commit('sources/updateAudio', {name: sourceName, volume})
-	},
-	async 'sources/scale'({getters: {client}}, {scene, source, scale}) {
-		console.log(typeof(scale))
-		client.send({'request-type': 'SetSceneItemTransform', 'scene-name': scene, 'item': source, 'x-scale': scale, 'y-scale': scale, 'rotation': 0})
-	},
-	async 'event/SceneItemTransformChanged'({commit}, {"scene-name": scene_name, "item-name": source_name, "item-id": id, transform}) {
-		commit('sources/SceneItemTransformChanged', {scene_name, source_name, id, transform})
 	}
 }
 
@@ -88,17 +81,6 @@ export const mutations = {
 		if (volume !== undefined) {
 			source.volume = volume
 		}
-	},
-	'sources/SceneItemTransformChanged'(state, {scene_name, source_name, id, transform}) {
-		console.log(source_name)
-  	console.log(transform)
-		console.log(state.list)
-		const source = state.list.find(source => source.name === source_name)
-		console.log(source)
-		if (!source) {
-			return
-		}
-
 	}
 }
 

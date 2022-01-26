@@ -26,38 +26,50 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex'
+import {mapState, mapActions, mapGetters} from 'vuex'
 import panelMixin from '@/mixins/panel'
 
 export default {
 	mixins: [panelMixin],
 
 	computed: {
-		...mapGetters('obs', ['currentScene']),
-		pip_source() {
-			let ret = this.currentScene.sources.filter(i => i.name == "_Camera[Hidden]")
-			console.log(ret[0])
-			return ret[0]
-		},
 		scale: {
-			get({pip_source: {cx, source_cx}}) {
-				console.log(cx/source_cx)
-				return cx/source_cx
+			get({PIPSource: {scale}}) {
+				return scale
 			},
 			set(scale) {
-				console.log(scale)
+				let pip_source = this.PIPSource
+				if(!pip_source){
+					return 0
+				}
 				this.setScale({
-					scene: this.currentScene.name,
-					source: this.pip_source.name,
+					scene: this.currentScene,
+					source: pip_source.name,
 					scale: Number(scale)
 				})
 			}
-		}
+		},
+		...mapState('obs', {
+			currentScene: state => state.scenes.current,
+			sceneslist: state => state.scenes.list,
+			PIPSource(state) {
+				let currentScene = this.sceneslist.find(i => i.name == this.currentScene)
+				if(!currentScene || !currentScene.sources){
+					return undefined
+				}
+				let pip_source = currentScene.sources.find(i => i.name == "_Camera[Hidden]")
+				if(pip_source){
+					return pip_source
+				}
+				return undefined
+			}
+		}),
 	},
 	methods: {
 		...mapActions('obs', {
-			setScale: 'sources/scale',
-		})
+			setScale: 'scenes/setScale',
+		}),
+
 	}
 }
 
