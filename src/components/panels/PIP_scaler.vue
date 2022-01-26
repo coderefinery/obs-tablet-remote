@@ -4,9 +4,9 @@
 			Picture in Picture scale
 		</template>
 
-		<h3 class="p-2 text-center font-bold">
-			Picture in Picture scale
-		</h3>
+		<h5 class="px-2">
+			Scale {{ this.settings.itemName }}
+		</h5>
 
 		<div
 			v-if="currentScene"
@@ -22,8 +22,39 @@
 			>
 		</div>
 
+
+    <template #settings>
+			<h3 class="text-xl mb-2">
+				Transition Scene
+			</h3>
+			<div class="field">
+				<label
+					:for="`settings-${id}-item-name`"
+					class="label"
+				>Item to scale:</label>
+				<select
+					:id="`settings-${id}-item-name`"
+					v-model="itemName"
+					class="select"
+				>
+					<option :value="undefined">
+						None
+					</option>
+					<option
+						v-for="item in currentSceneItems"
+						:key="item.name"
+						:value="item.name"
+					>
+						{{ item.name }}
+					</option>
+				</select>
+			</div>
+		</template>
+
 	</panel-wrapper>
 </template>
+
+
 
 <script>
 import {mapState, mapActions, mapGetters} from 'vuex'
@@ -33,9 +64,42 @@ export default {
 	mixins: [panelMixin],
 
 	computed: {
+		itemName: {
+			get() {
+				return this.settings.itemName
+			},
+			set(value) {
+				this.setSetting('itemName', value)
+			}
+		},
+		currentSceneItems: {
+			get() {
+				let currentScene = this.sceneslist.find(i => i.name == this.currentScene)
+				if(currentScene){
+					return currentScene.sources
+				}
+				return undefined
+			},
+		},
+	  PIPSource: {
+			get(){
+				let sources = this.currentSceneItems
+				if(!sources){
+					return undefined
+				}
+				let pip_source = sources.find(i => i.name == this.settings.itemName)
+				if(pip_source){
+					return pip_source
+				}
+				return undefined
+			}
+		},
 		scale: {
-			get({PIPSource: {scale}}) {
-				return scale
+			get({PIPSource}) {
+				if(PIPSource){
+					return PIPSource.scale
+				}
+				return 0
 			},
 			set(scale) {
 				let pip_source = this.PIPSource
@@ -51,18 +115,7 @@ export default {
 		},
 		...mapState('obs', {
 			currentScene: state => state.scenes.current,
-			sceneslist: state => state.scenes.list,
-			PIPSource(state) {
-				let currentScene = this.sceneslist.find(i => i.name == this.currentScene)
-				if(!currentScene || !currentScene.sources){
-					return undefined
-				}
-				let pip_source = currentScene.sources.find(i => i.name == "_Camera[Hidden]")
-				if(pip_source){
-					return pip_source
-				}
-				return undefined
-			}
+			sceneslist: state => state.scenes.list
 		}),
 	},
 	methods: {
