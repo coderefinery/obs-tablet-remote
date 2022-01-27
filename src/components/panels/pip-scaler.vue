@@ -143,21 +143,21 @@ export default {
 		allSceneItems: {
 			get() {
 				const sources = []
-			  for(let scene of this.sceneslist){
-					for(let item of scene.sources){
-						if(sources.indexOf(item.name) === -1){
-  						console.log(item.name)
+				for (const scene of this.sceneslist) {
+					for (const item of scene.sources) {
+						if (!sources.includes(item.name)) {
 							sources.push(item.name)
 						}
 					}
 				}
+
 				console.log(sources)
 				return sources
 			}
 		},
 		PIPSource: {
 			get() {
-			  const currentScene = this.sceneslist.find(i => i.name === this.currentScene)
+				const currentScene = this.sceneslist.find(i => i.name === this.currentScene)
 				if (!currentScene) {
 					return undefined
 				}

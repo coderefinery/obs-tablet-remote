@@ -42,6 +42,7 @@ export default {
 		if ('auto' in vars) {
 			this.doAutoconnect(vars)
 		}
+
 		if ('config' in vars) {
 			this.loadConfigURL(vars.config)
 		}
