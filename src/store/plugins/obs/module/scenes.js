@@ -25,9 +25,9 @@ export default {
 						'source_name':source.name,
 						'scale': properties.scale.x,
 						'crop_top': properties.crop.top,
-						'crop_right': properties.scale.right,
-						'crop_bottom': properties.scale.bottom,
-						'crop_left': properties.scale.left
+						'crop_right': properties.crop.right,
+						'crop_bottom': properties.crop.bottom,
+						'crop_left': properties.crop.left
 					})
 				}
 			}
@@ -35,8 +35,11 @@ export default {
 		'scenes/current'({getters: {client}}, {name}) {
 			return client.send({'request-type': 'SetCurrentScene', 'scene-name': name})
 		},
-		async 'scenes/setScale'({getters: {client}}, {scene, source, scale}) {
+		async 'scenes/setScale'({getters: {client}}, {scene, source, scale, crop}) {
 			return client.send({'request-type': 'SetSceneItemTransform', 'scene-name': scene, 'item': source, 'x-scale': scale, 'y-scale': scale, 'rotation': 0})
+		},
+		async 'scenes/setCrop'({getters: {client}}, {scene, source, crop}) {
+			return client.send({'request-type': 'SetSceneItemCrop', 'scene-name': scene, 'item': source, 'top': crop.top, 'bottom': crop.bottom, 'left': crop.left, 'right': crop.right})
 		},
 		async 'sources/render'({getters: {client}}, {scene, source, render}) {
 			return client.send({
@@ -67,9 +70,9 @@ export default {
 				scene_name, source_name, id,
 				'scale': transform.scale.x,
 				'crop_top': transform.crop.top,
-				'crop_right': transform.scale.right,
-				'crop_bottom': transform.scale.bottom,
-				'crop_left': transform.scale.left
+				'crop_right': transform.crop.right,
+				'crop_bottom': transform.crop.bottom,
+				'crop_left': transform.crop.left
 			})
 			// This forcefully triggers an update in the
 			// computed properties in
@@ -117,10 +120,12 @@ export default {
 			const source = scene.sources.find(source => source.name === source_name)
 			if(source) {
 				source.scale = scale
-				source.crop_top = crop_top
-				source.crop_right = crop_right
-				source.crop_bottom = crop_bottom
-				source.crop_left = crop_left
+				source.crop = {
+					top: crop_top,
+				  right: crop_right,
+				  bottom: crop_bottom,
+				  left: crop_left
+				}
 			}
 
 

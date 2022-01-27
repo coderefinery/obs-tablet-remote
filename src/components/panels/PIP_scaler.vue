@@ -22,6 +22,25 @@
 			>
 		</div>
 
+		<h5 class="px-2">
+			Crop {{ this.settings.itemName }}
+		</h5>
+		<div
+			v-if="currentScene"
+			class="flex-grow button-grid has-per-row-6"
+		>
+			<span v-for="n in 5">
+			<input
+				v-model="crop"
+				name="crop"
+				class="radio mx-4"
+				type="radio"
+				id="crop"
+				:value="n"
+			>
+			<label for="html"> {{n}} </label><br>
+			</span>
+		</div>
 
     <template #settings>
 			<h3 class="text-xl mb-2">
@@ -63,6 +82,17 @@ import panelMixin from '@/mixins/panel'
 export default {
 	mixins: [panelMixin],
 
+	data() {
+		return {
+			crop_factors: {
+				1: {'top':  0, 'bottom':  0, 'left':  0, 'right':  0, },
+    		2: {'top':  0, 'bottom':  0, 'left': 59, 'right':  59, },
+    		3: {'top': 90, 'bottom':  0, 'left': 12, 'right': 12, },
+    		4: {'top':  4, 'bottom':  0, 'left': 60, 'right': 60, },
+    		5: {'top': 50, 'bottom':  0, 'left': 11, 'right': 11, },
+			}
+    }
+	},
 	computed: {
 		itemName: {
 			get() {
@@ -113,6 +143,35 @@ export default {
 				})
 			}
 		},
+		crop: {
+			get({PIPSource}) {
+				if(PIPSource){
+					for(let i in this.crop_factors){
+						if(this.is_same_crop(PIPSource.crop, this.crop_factors[i])){
+							return i
+						}
+					}
+			  }
+				return undefined
+			},
+			set(crop) {
+			  let pip_source = this.PIPSource
+			  if(!pip_source){
+			  	return 0
+			  }
+				let new_crop = this.crop_factors[crop]
+				this.setCrop({
+					scene: this.currentScene,
+					source: pip_source.name,
+					crop: {
+					  top: new_crop.top,
+					  bottom: new_crop.bottom,
+						left: new_crop.left,
+						right: new_crop.right
+				  }
+				})
+			}
+		},
 		...mapState('obs', {
 			currentScene: state => state.scenes.current,
 			sceneslist: state => state.scenes.list
@@ -121,8 +180,20 @@ export default {
 	methods: {
 		...mapActions('obs', {
 			setScale: 'scenes/setScale',
+			setCrop: 'scenes/setCrop',
 		}),
-
+		is_same_crop(crop1, crop2){
+		  if(!crop1 || !crop2){
+				return false
+			}
+			for(let key of ["top", "bottom", "left", "right"]){
+				if(crop1[key] == undefined || crop2[key] == undefined ||
+				   crop1[key] != crop2[key]){
+					return false
+				}
+			}
+			return true
+		}
 	}
 }
 
