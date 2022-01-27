@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex'
+import {mapMutations, mapGetters, mapState} from 'vuex'
 
 import {parseHashBang} from '@/util'
 
@@ -42,6 +42,9 @@ export default {
 		if ('auto' in vars) {
 			this.doAutoconnect(vars)
 		}
+		if ('config' in vars) {
+			this.loadConfigURL(vars.config)
+		}
 	},
 	methods: {
 		async doAutoconnect(vars) {
@@ -49,13 +52,25 @@ export default {
 				host: vars.host,
 				port: vars.port
 			})
-
 			if (response.authRequired && vars.password) {
 				await this.$store.dispatch('obs/authenticate', {
 					password: vars.password
 				})
 			}
-		}
+		},
+		async loadConfigURL(url) {
+			console.log(url)
+			this.importingLayout = true
+			this.importLayoutError = false
+			this.importLayoutSuccess = false
+
+			const self = this
+
+			$.getJSON(url, function(layout) {
+				self.importLayout(layout)
+			});
+		},
+		...mapMutations('layout', ['importLayout'])
 	}
 }
 </script>
