@@ -1,7 +1,7 @@
 <template>
 	<panel-wrapper content-class="flex flex-col">
 		<template slot="name">
-			Picture in Picture scale
+			Adjust picture in picture
 		</template>
 
 		<h5 class="px-2">
