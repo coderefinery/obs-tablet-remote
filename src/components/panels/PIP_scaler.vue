@@ -29,16 +29,49 @@
 			v-if="currentScene"
 			class="flex-grow button-grid has-per-row-6"
 		>
-			<span v-for="n in 5">
-			<input
-				v-model="crop"
-				name="crop"
-				class="radio mx-4"
-				type="radio"
-				id="crop"
-				:value="n"
-			>
-			<label for="html"> {{n}} </label><br>
+			<span>
+  			<input
+  				v-model="crop"
+  				name="crop"
+  				class="radio mx-4"
+  				type="radio"
+  				id="crop"
+  				:value="1"
+  			>
+  			<label for="html"> None </label><br>
+			</span>
+			<span>
+  			<input
+  				v-model="crop"
+  				name="crop"
+  				class="radio mx-4"
+  				type="radio"
+  				id="crop"
+  				:value="2"
+  			>
+  			<label for="html"> 2 people </label><br>
+			</span>
+			<span>
+  			<input
+  				v-model="crop"
+  				name="crop"
+  				class="radio mx-4"
+  				type="radio"
+  				id="crop"
+  				:value="3"
+  			>
+  			<label for="html"> 3-4 people </label><br>
+			</span>
+			<span>
+  			<input
+  				v-model="crop"
+  				name="crop"
+  				class="radio mx-4"
+  				type="radio"
+  				id="crop"
+  				:value="4"
+  			>
+  			<label for="html"> 5-6 people </label><br>
 			</span>
 		</div>
 
