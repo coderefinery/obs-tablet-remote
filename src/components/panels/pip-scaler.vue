@@ -310,13 +310,13 @@ export default {
 			return this.settings.cropFactors[index][direction]
 		},
 		setCropFactor(e, index, direction){
-		  const current_crop = crop
+		  const current_crop = this.crop
 		  let cropFactors = this.settings.cropFactors
-			cropFactors[index][direction] = e.target.value
+			cropFactors[index][direction] = Number(e.target.value)
 			this.setSetting('cropFactors', cropFactors)
-			console.log(cropFactors)
-			crop = 0
-			crop = current_crop
+			if(index == current_crop){
+				this.crop = current_crop
+			}
 		},
 		isSameCrop(crop1, crop2) {
 			if (!crop1 || !crop2) {
