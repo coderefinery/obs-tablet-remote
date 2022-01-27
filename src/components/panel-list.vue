@@ -118,7 +118,7 @@ const PANELS_INFO = [
 		description: 'Scale the Picture in Picture Source',
 		icon: 'dot-circle',
 		iconSettings: {},
-		type: 'PIPScaler',
+		type: 'PIPScaler'
 	},
 	{
 		name: 'Frame',

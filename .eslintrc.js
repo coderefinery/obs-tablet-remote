@@ -3,6 +3,9 @@ const {buildConfig} = require('xo/lib/options-manager')
 
 const xoConfig = buildConfig({
 	semicolon: false,
+	env: {
+		jquery: true
+	},
 	extends: [
 		'plugin:vue/recommended'
 	],
@@ -10,7 +13,7 @@ const xoConfig = buildConfig({
 		// 'object-curly-spacing': ['error', 'always'],
 		'valid-jsdoc': 0,
 		'vue/html-indent': ['error', 'tab'],
-		'no-unused-vars': 'off'
+		'no-await-in-loop': 1
 	},
 	settings: {
 		'import/resolver': {

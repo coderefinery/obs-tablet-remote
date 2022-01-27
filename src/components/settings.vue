@@ -144,7 +144,7 @@ export default {
 
 				try {
 					layout = JSON.parse(reader.result)
-				// eslint-disable-next-line no-unused-vars
+					// eslint-disable-next-line no-unused-vars
 				} catch (error) {
 					self.importLayoutError = 'File is not a proper JSON formatted file'
 					self.importingLayout = false

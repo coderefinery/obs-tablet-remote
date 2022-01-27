@@ -66,8 +66,9 @@ export default {
 
 			const self = this
 
-			$.getJSON(url, function(layout) {
-
+			// no-undef is triggered by $
+			// eslint-disable-line no-undef
+			$.getJSON(url, layout => {
 				const has = (object, key) => Object.hasOwnProperty.call(object, key)
 
 				if (
@@ -79,7 +80,7 @@ export default {
 				} else {
 					console.log = 'Could not import layout from URL. Missing necessary fields.'
 				}
-			});
+			})
 		},
 		...mapMutations('layout', ['importLayout'])
 	}

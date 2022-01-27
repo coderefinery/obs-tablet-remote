@@ -19,28 +19,31 @@ export default {
 			})
 			for (const scene of scenes) {
 				for (const source of scene.sources) {
-					const properties = await client.send({'request-type': 'GetSceneItemProperties', 'scene-name': scene.name, 'item': source.name})
+					// Can we do without this:
+					// eslint-disable-next-line no-await-in-loop
+					const properties = await client.send({'request-type': 'GetSceneItemProperties', 'scene-name': scene.name, item: source.name})
 					commit('scenes/SceneItemTransformChanged', {
-						'scene_name': scene.name,
-						'source_name':source.name,
-						'scale': properties.scale.x,
-						'crop_top': properties.crop.top,
-						'crop_right': properties.crop.right,
-						'crop_bottom': properties.crop.bottom,
-						'crop_left': properties.crop.left
+						sceneName: scene.name,
+						sourceName: source.name,
+						scale: properties.scale.x,
+						cropTop: properties.crop.top,
+						cropRight: properties.crop.right,
+						cropBottom: properties.crop.bottom,
+						cropLeft: properties.crop.left
 					})
 				}
 			}
-      commit('scenes/kick_update', {'scene-name': current})
+
+			commit('scenes/kick_update', {'scene-name': current})
 		},
 		'scenes/current'({getters: {client}}, {name}) {
 			return client.send({'request-type': 'SetCurrentScene', 'scene-name': name})
 		},
-		async 'scenes/setScale'({getters: {client}}, {scene, source, scale, crop}) {
-			return client.send({'request-type': 'SetSceneItemTransform', 'scene-name': scene, 'item': source, 'x-scale': scale, 'y-scale': scale, 'rotation': 0})
+		async 'scenes/setScale'({getters: {client}}, {scene, source, scale}) {
+			return client.send({'request-type': 'SetSceneItemTransform', 'scene-name': scene, item: source, 'x-scale': scale, 'y-scale': scale, rotation: 0})
 		},
 		async 'scenes/setCrop'({getters: {client}}, {scene, source, crop}) {
-			return client.send({'request-type': 'SetSceneItemCrop', 'scene-name': scene, 'item': source, 'top': crop.top, 'bottom': crop.bottom, 'left': crop.left, 'right': crop.right})
+			return client.send({'request-type': 'SetSceneItemCrop', 'scene-name': scene, item: source, top: crop.top, bottom: crop.bottom, left: crop.left, right: crop.right})
 		},
 		async 'sources/render'({getters: {client}}, {scene, source, render}) {
 			return client.send({
@@ -66,16 +69,16 @@ export default {
 		'event/SceneItemVisibilityChanged'({commit}, data) {
 			commit('scenes/itemVisibilityChanged', data)
 		},
-		'event/SceneItemTransformChanged'({commit}, {"scene-name": scene_name, "item-name": source_name, "item-id": id, transform}) {
+		'event/SceneItemTransformChanged'({commit}, {'scene-name': sceneName, 'item-name': sourceName, 'item-id': id, transform}) {
 			commit('scenes/SceneItemTransformChanged', {
-				scene_name, source_name, id,
-				'scale': transform.scale.x,
-				'crop_top': transform.crop.top,
-				'crop_right': transform.crop.right,
-				'crop_bottom': transform.crop.bottom,
-				'crop_left': transform.crop.left
+				sceneName, sourceName, id,
+				scale: transform.scale.x,
+				cropTop: transform.crop.top,
+				cropRight: transform.crop.right,
+				cropBottom: transform.crop.bottom,
+				cropLeft: transform.crop.left
 			})
-      commit('scenes/kick_update', {'scene-name': scene_name})
+			commit('scenes/kick_update', {'scene-name': sceneName})
 		}
 	},
 	getters: {
@@ -113,22 +116,23 @@ export default {
 				}
 			}
 		},
-		'scenes/SceneItemTransformChanged'(state, {scene_name, source_name, id, scale, crop_top, crop_right, crop_bottom, crop_left}) {
+		// eslint-disable-next-line no-unused-vars
+		'scenes/SceneItemTransformChanged'(state, {sceneName, sourceName, _id, scale, cropTop, cropRight, cropBottom, cropLeft}) {
 			// When the transform of scene item changes, store the
 			// properties we need for the PIP adjustor
-			const scene = state.list.find(scene => scene.name === scene_name)
+			const scene = state.list.find(scene => scene.name === sceneName)
 			if (!scene) {
 				return
 			}
 
-			const source = scene.sources.find(source => source.name === source_name)
-			if(source) {
+			const source = scene.sources.find(source => source.name === sourceName)
+			if (source) {
 				source.scale = scale
 				source.crop = {
-					top: crop_top,
-				  right: crop_right,
-				  bottom: crop_bottom,
-				  left: crop_left
+					top: cropTop,
+					right: cropRight,
+					bottom: cropBottom,
+					left: cropLeft
 				}
 			}
 		}
