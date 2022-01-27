@@ -94,7 +94,7 @@
 				<label
 					:for="`settings-${id}-item-name`"
 					class="label"
-				>Item to scale:</label>
+				>Choose scene item:</label>
 				<select
 					:id="`settings-${id}-item-name`"
 					v-model="itemName"
@@ -104,11 +104,11 @@
 						None
 					</option>
 					<option
-						v-for="item in currentSceneItems"
-						:key="item.name"
-						:value="item.name"
+						v-for="item in allSceneItems"
+						:key="item"
+						:value="item"
 					>
-						{{ item.name }}
+						{{ item }}
 					</option>
 				</select>
 			</div>
@@ -143,14 +143,19 @@ export default {
 				this.setSetting('itemName', value)
 			}
 		},
-		currentSceneItems: {
+		allSceneItems: {
 			get() {
-				const currentScene = this.sceneslist.find(i => i.name === this.currentScene)
-				if (currentScene) {
-					return currentScene.sources
+				const sources = []
+			  for(let scene of this.sceneslist){
+					for(let item of scene.sources){
+						if(sources.indexOf(item.name) === -1){
+  						console.log(item.name)
+							sources.push(item.name)
+						}
+					}
 				}
-
-				return undefined
+				console.log(sources)
+				return sources
 			}
 		},
 		PIPSource: {
