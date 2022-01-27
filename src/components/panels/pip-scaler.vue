@@ -110,12 +110,69 @@
 				</select>
 			</div>
 			<div class="field">
-				<label
-					class="label"
-				>Crop values:</label>
-				<label for="1 person"> 1 person </label>
-				<input type="number" id="1 person" :value="getCropFactor(1,'top')" @input="setCropFactor($event, 1, 'top')">
-</div>
+				<label class="label">Crop values:</label>
+				<table class="p-2">
+				<tr>
+					<th></th>
+					<th> top </th>
+					<th> right </th>
+					<th> bottom </th>
+					<th> left </th>
+				</tr>
+				<tr>
+					<td>
+					1 person
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(2,'top')" @input="setCropFactor($event, 2, 'top')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(2,'right')" @input="setCropFactor($event, 2, 'right')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(2,'bottom')" @input="setCropFactor($event, 2, 'bottom')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(2,'left')" @input="setCropFactor($event, 2, 'left')">
+					</td>
+				</tr>
+				<tr>
+					<td>
+					2 people
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(3,'top')" @input="setCropFactor($event, 3, 'top')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(3,'right')" @input="setCropFactor($event, 3, 'right')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(3,'bottom')" @input="setCropFactor($event, 3, 'bottom')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(3,'left')" @input="setCropFactor($event, 3, 'left')">
+					</td>
+				</tr>
+				<tr>
+					<td>
+					3-4 people
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(4,'top')" @input="setCropFactor($event, 4, 'top')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(4,'right')" @input="setCropFactor($event, 4, 'right')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(4,'bottom')" @input="setCropFactor($event, 4, 'bottom')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(4,'left')" @input="setCropFactor($event, 4, 'left')">
+					</td>
+				</tr>
+				<tr>
+					<td>
+					5-6 people
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(5,'top')" @input="setCropFactor($event, 5, 'top')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(5,'right')" @input="setCropFactor($event, 5, 'right')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(5,'bottom')" @input="setCropFactor($event, 5, 'bottom')">
+					</td><td>
+					<input type="number" class="w-12" :value="getCropFactor(5,'left')" @input="setCropFactor($event, 5, 'left')">
+					</td>
+				</tr>
+				</table>
+			</div>
 		</template>
 	</panel-wrapper>
 </template>
@@ -253,10 +310,13 @@ export default {
 			return this.settings.cropFactors[index][direction]
 		},
 		setCropFactor(e, index, direction){
+		  const current_crop = crop
 		  let cropFactors = this.settings.cropFactors
 			cropFactors[index][direction] = e.target.value
 			this.setSetting('cropFactors', cropFactors)
 			console.log(cropFactors)
+			crop = 0
+			crop = current_crop
 		},
 		isSameCrop(crop1, crop2) {
 			if (!crop1 || !crop2) {
@@ -276,3 +336,12 @@ export default {
 }
 
 </script>
+
+<style>
+  th {
+    text-align: left;
+  }
+  td{
+    padding: 0 6px 0 6px;
+	}
+</style>
