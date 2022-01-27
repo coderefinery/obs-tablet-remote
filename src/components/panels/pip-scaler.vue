@@ -1,7 +1,7 @@
 <template>
 	<panel-wrapper content-class="flex flex-col">
 		<template slot="name">
-			Adjust picture in picture
+			Adjust element transform
 		</template>
 
 		<h5 class="px-2">
