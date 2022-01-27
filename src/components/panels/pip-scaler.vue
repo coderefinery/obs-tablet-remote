@@ -49,7 +49,7 @@
 					type="radio"
 					:value="2"
 				>
-				<label for="html"> 2 people </label><br>
+				<label for="html"> 1 person </label><br>
 			</span>
 			<span>
 				<input
@@ -60,7 +60,7 @@
 					type="radio"
 					:value="3"
 				>
-				<label for="html"> 3-4 people </label><br>
+				<label for="html"> 2 people </label><br>
 			</span>
 			<span>
 				<input
@@ -70,6 +70,17 @@
 					class="radio mx-4"
 					type="radio"
 					:value="4"
+				>
+				<label for="html"> 3-4 people </label><br>
+			</span>
+			<span>
+				<input
+					id="crop"
+					v-model="crop"
+					name="crop"
+					class="radio mx-4"
+					type="radio"
+					:value="5"
 				>
 				<label for="html"> 5-6 people </label><br>
 			</span>
