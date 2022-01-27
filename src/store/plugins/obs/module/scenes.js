@@ -31,6 +31,7 @@ export default {
 					})
 				}
 			}
+      commit('scenes/kick_update', {'scene-name': current})
 		},
 		'scenes/current'({getters: {client}}, {name}) {
 			return client.send({'request-type': 'SetCurrentScene', 'scene-name': name})
@@ -74,13 +75,7 @@ export default {
 				'crop_bottom': transform.crop.bottom,
 				'crop_left': transform.crop.left
 			})
-			// This forcefully triggers an update in the
-			// computed properties in
-			// components/panels/PIP_scaler. why changing the
-			// current schene works but changing the transform
-			// does not?
-			commit('scenes/current', {'scene-name': ''})
-			commit('scenes/current', {'scene-name': scene_name})
+      commit('scenes/kick_update', {'scene-name': scene_name})
 		}
 	},
 	getters: {
@@ -98,6 +93,15 @@ export default {
 		'scenes/reset'(state) {
 			state.current = null
 			state.list = []
+		},
+		'scenes/kick_update'(state, {'scene-name': name}) {
+			// This forcefully triggers an update in the
+			// computed properties in
+			// components/panels/PIP_scaler. why changing the
+			// current scene works but changing the transform
+			// does not?
+			state.current = null
+			state.current = name
 		},
 		'scenes/itemVisibilityChanged'(state, {'scene-name': sceneName, 'item-name': sourceName, 'item-visible': render}) {
 			const scene = state.list.find(scene => scene.name === sceneName)
@@ -127,10 +131,6 @@ export default {
 				  left: crop_left
 				}
 			}
-
-
-
-
 		}
 	}
 }
