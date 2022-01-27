@@ -67,7 +67,18 @@ export default {
 			const self = this
 
 			$.getJSON(url, function(layout) {
-				self.importLayout(layout)
+
+				const has = (object, key) => Object.hasOwnProperty.call(object, key)
+
+				if (
+					has(layout, 'nextId') &&
+					has(layout, 'panels') &&
+					has(layout, 'tabs')
+				) {
+					self.importLayout(layout)
+				} else {
+					console.log = 'Could not import layout from URL. Missing necessary fields.'
+				}
 			});
 		},
 		...mapMutations('layout', ['importLayout'])
