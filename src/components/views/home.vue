@@ -60,7 +60,7 @@
 
 				<p class="mb-2">
 					Submit new or 👍 existing one at <a
-						href="https://github.com/t2t2/obs-tablet-remote/issues"
+						href="https://github.com/coderefinery/obs-tablet-remote/issues"
 						target="_blank"
 					>GitHub Issues</a>
 				</p>

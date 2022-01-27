@@ -10,7 +10,7 @@
     "deploy": "npm-run-all build:deploy deploy:upload",
     "deploy:ci": "npm-run-all build:deploy deploy:upload:ci",
     "deploy:upload": "gh-pages -d dist",
-    "deploy:upload:ci": "gh-pages -d dist --repo \"https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git\" --user \"GH Action <1122555+t2t2@users.noreply.github.com>\"",
+    "deploy:upload:ci": "gh-pages -d dist --repo \"https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git\" --user \"GH Action <1122555+coderefinery@users.noreply.github.com>\"",
     "dev": "npm run serve",
     "lint": "vue-cli-service lint",
     "serve": "vue-cli-service serve"
@@ -48,7 +48,7 @@
     "vue-template-compiler": "^2.6.11",
     "xo": "^0.30.0"
   },
-  "homepage": "http://t2t2.github.io/obs-tablet-remote/",
+  "homepage": "http://coderefinery.github.io/obs-tablet-remote/",
   "license": "MIT",
-  "repository": "https://github.com/t2t2/obs-tablet-remote"
+  "repository": "https://github.com/coderefinery/obs-tablet-remote"
 }
