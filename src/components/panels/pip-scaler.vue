@@ -109,6 +109,13 @@
 					</option>
 				</select>
 			</div>
+			<div class="field">
+				<label
+					class="label"
+				>Crop values:</label>
+				<label for="1 person"> 1 person </label>
+				<input type="number" id="1 person" :value="getCropFactor(1,'top')" @input="setCropFactor($event, 1, 'top')">
+</div>
 		</template>
 	</panel-wrapper>
 </template>
@@ -122,7 +129,7 @@ export default {
 
 	data() {
 		return {
-			cropFactors: {
+			defaultCropFactors: {
 				1: {top: 0, bottom: 0, left: 0, right: 0},
 				2: {top: 0, bottom: 0, left: 59, right: 59},
 				3: {top: 90, bottom: 0, left: 12, right: 12},
@@ -199,8 +206,8 @@ export default {
 		crop: {
 			get({PIPSource}) {
 				if (PIPSource) {
-					for (const i in this.cropFactors) {
-						if (this.isSameCrop(PIPSource.crop, this.cropFactors[i])) {
+					for (const i in this.settings.cropFactors) {
+						if (this.isSameCrop(PIPSource.crop, this.settings.cropFactors[i])) {
 							return i
 						}
 					}
@@ -214,7 +221,7 @@ export default {
 					return 0
 				}
 
-				const newCrop = this.cropFactors[crop]
+				const newCrop = this.settings.cropFactors[crop]
 				this.setCrop({
 					scene: this.currentScene,
 					source: pipSource.name,
@@ -232,11 +239,25 @@ export default {
 			sceneslist: state => state.scenes.list
 		})
 	},
+	created() {
+  	if(!this.settings.cropFactors){
+		  this.setSetting('cropFactors', this.defaultCropFactors)
+		}
+	},
 	methods: {
 		...mapActions('obs', {
 			setScale: 'scenes/setScale',
 			setCrop: 'scenes/setCrop'
 		}),
+		getCropFactor(index, direction){
+			return this.settings.cropFactors[index][direction]
+		},
+		setCropFactor(e, index, direction){
+		  let cropFactors = this.settings.cropFactors
+			cropFactors[index][direction] = e.target.value
+			this.setSetting('cropFactors', cropFactors)
+			console.log(cropFactors)
+		},
 		isSameCrop(crop1, crop2) {
 			if (!crop1 || !crop2) {
 				return false
