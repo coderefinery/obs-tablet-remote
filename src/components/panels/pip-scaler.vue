@@ -157,7 +157,12 @@ export default {
 		},
 		PIPSource: {
 			get() {
-				const sources = this.currentSceneItems
+			  const currentScene = this.sceneslist.find(i => i.name === this.currentScene)
+				if (!currentScene) {
+					return undefined
+				}
+
+				const sources = currentScene.sources
 				if (!sources) {
 					return undefined
 				}
