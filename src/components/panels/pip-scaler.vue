@@ -87,9 +87,6 @@
 		</div>
 
 		<template #settings>
-			<h3 class="text-xl mb-2">
-				Transition Scene
-			</h3>
 			<div class="field">
 				<label
 					:for="`settings-${id}-item-name`"
