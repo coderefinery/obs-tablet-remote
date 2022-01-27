@@ -66,9 +66,8 @@ export default {
 
 			const self = this
 
-			// no-undef is triggered by $
-			// eslint-disable-line no-undef
-			$.getJSON(url, layout => {
+			// eslint no-undef is triggered by $
+			$.getJSON(url, layout => { // eslint-disable-line no-undef
 				const has = (object, key) => Object.hasOwnProperty.call(object, key)
 
 				if (
